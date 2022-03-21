@@ -73,20 +73,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'RentCar.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'rentcar_db',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -129,3 +115,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from RentCar.local_settings import DATABASES
+except ModuleNotFoundError:
+    print("No database information in local_settings.py file!")
+    print("Check data and try again!")
+    exit(0)
