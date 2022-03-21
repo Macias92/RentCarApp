@@ -1,0 +1,16 @@
+<div class="topnav">
+    <a href="{% url "author_add" %}">Add Author</a>
+    <a href="{% url "author_list" %}">Author List</a>
+{% if perms.b_app.add_book %}
+    <a href="{% url "book_add" %}">Add Book</a>
+{% endif %}
+    <a href="{% url "book_list" %}">Book List</a>
+    <a href="{% url "publisher_model_add" %}">Add Publisher</a>
+    <a href="{% url "publisher_create" %}">Create Publisher</a>
+    {% if user.is_authenticated %}
+    <a href="{% url "logout" %}">Log out</a>
+    {% else %}
+    <a href="{% url "login" %}">Log in</a>
+    <a href="{% url "create-user" %}">Create User</a>
+    {% endif %}
+</div>

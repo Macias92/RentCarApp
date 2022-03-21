@@ -1,0 +1,19 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+{#    jeśli chciałbym dodać obrazek, to wpisuje zamiast href src i nazwę pliku#}
+</head>
+<body>
+{#{% include "nav_bar.html" %}#}
+{% block content %}
+{% endblock %}
+{#<br>{{ date }} {{ user.username }}#}
+</body>
+</html>
