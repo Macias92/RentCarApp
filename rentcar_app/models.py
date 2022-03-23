@@ -59,7 +59,7 @@ class Type(models.Model):
 
 class Car(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    name = models.CharField(max_length=64)
+    model = models.CharField(max_length=64)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     power = models.IntegerField()
     engine = models.DecimalField(max_digits=2, decimal_places=1)
@@ -79,10 +79,16 @@ class Car(models.Model):
     price_per_day = models.IntegerField()
 
     def __str__(self):
-        return f"{self.brand} {self.name}"
+        return f"{self.brand} {self.model}"
 
-    def get_absolute_url(self):
+    def get_update_url(self):
         return reverse('car_update', args=(self.pk, ))
+
+    def get_details_url(self):
+        return reverse('car_details', args=(self.pk, ))
+
+    def get_delete_url(self):
+        return reverse('car_delete', args=(self.pk, ))
 
 
 class Location(models.Model):
