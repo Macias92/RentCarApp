@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Car details | RentCar4U</title>
+{% endblock %}
+
+{% block content %}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+
+    <table style="width:50%">
+        <h3>Reservation details:</h3>
+        <tr>
+            <th>Reservation number [Res NO]:</th>
+            <td>{{ rent.id }}</td>
+        </tr>
+        <tr>
+            <th>User:</th>
+            <td>{{ rent.user.username }}</td>
+        </tr>
+        <tr>
+            <th>Car:</th>
+            <td><a href="{{ rent.car.get_details_url }}">{{ rent.car }}</a></td>
+        </tr>
+        <tr>
+            <th>Location:</th>
+            <td>{{ rent.location }}</td>
+        </tr>
+        <tr>
+            <th>Start date:</th>
+            <td>{{ rent.start_date }}</td>
+        </tr>
+        <tr>
+            <th>Start date:</th>
+            <td>{{ rent.end_date }}</td>
+        </tr>
+        <tr>
+            <th>Price per day:</th>
+            <td>{{ price }}zł</td>
+        </tr>
+        <tr>
+            <th>Summary price:</th>
+            <td>{{ summary }}zł</td>
+        </tr>
+
+    </table>
+{% endblock %}

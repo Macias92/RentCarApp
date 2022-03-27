@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User, Permission, Group
 
+from rentcar_app.models import Profile
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -10,17 +12,8 @@ class LoginForm(forms.Form):
 class CreateUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name']
         widgets = {'password': forms.PasswordInput()}
-
-
-class UpdateUserPermissionForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'user_permissions']
-        widgets = {
-            'user_permissions': forms.CheckboxSelectMultiple
-        }
 
 
 class UpdateGroupPermissionForm(forms.ModelForm):
@@ -30,3 +23,9 @@ class UpdateGroupPermissionForm(forms.ModelForm):
         widgets = {
             'permissions': forms.CheckboxSelectMultiple
         }
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'

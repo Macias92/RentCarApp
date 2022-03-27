@@ -5,10 +5,13 @@ from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tel_num = models.IntegerField()
-    address = models.CharField(max_length=128)
-    city = models.CharField(max_length=64)
-    zip_code = models.CharField(max_length=5, blank=True)
+    tel_num = models.IntegerField(null=True)
+    address = models.CharField(max_length=128, null=True)
+    city = models.CharField(max_length=64, null=True)
+    zip_code = models.CharField(max_length=5, blank=True, null=True)
+
+    def get_update_url(self):
+        return reverse('profile_update', args=(self.pk, ))
 
 
 class Brand(models.Model):
@@ -77,6 +80,7 @@ class Car(models.Model):
         (4, 'electric'))
     fuel = models.IntegerField(choices=FUELS)
     price_per_day = models.IntegerField()
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.brand} {self.model}"
@@ -94,10 +98,25 @@ class Car(models.Model):
 class Location(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Rent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    location = models.OneToOneField(Location, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    start_date = models.DateField(auto_now_add=False, auto_now=False)
+    end_date = models.DateField(auto_now_add=False, auto_now=False)
+
+    class Meta:
+        unique_together = ('car', 'start_date', 'end_date')
+
+    def get_edit_url(self):
+        return reverse('rent_edit', args=(self.pk, ))
+
+    def get_details_url(self):
+        return reverse('rent_details', args=(self.pk, ))
+
+    def get_delete_url(self):
+        return reverse('rent_delete', args=(self.pk, ))

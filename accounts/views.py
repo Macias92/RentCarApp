@@ -1,11 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from accounts.forms import LoginForm, CreateUserForm, UpdateUserPermissionForm, UpdateGroupPermissionForm
+from django.views.generic import UpdateView, DetailView
 
+from accounts.forms import LoginForm, CreateUserForm, UpdateGroupPermissionForm, ProfileForm
 
 # Create your views here.
+from rentcar_app.models import Profile
 
 
 class LoginView(View):
@@ -44,23 +47,11 @@ class CreateUserView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            profile = Profile(user=user)
+            profile.save()
             group = Group.objects.get(name='client')
             user.groups.add(group)
             return redirect('/')
-        return render(request, 'form.html', {'form': form})
-
-
-class UpdateUserPermissionView(View):
-    def get(self, request, user_id):
-        user = User.objects.get(pk=user_id)
-        form = UpdateUserPermissionForm(instance=user)
-        return render(request, 'form.html', {'form': form})
-
-    def post(self, request, user_id):
-        user = User.objects.get(pk=user_id)
-        form = UpdateUserPermissionForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
         return render(request, 'form.html', {'form': form})
 
 
@@ -76,5 +67,39 @@ class UpdateGroupPermissionView(View):
         if form.is_valid():
             form.save()
         return render(request, 'form.html', {'form': form})
+
+
+# class ProfileDetailsView(View):
+#     def get(self, request, user_id):
+#         profile = Profile.objects.get(pk=user_id)
+#         return render(request, "profile_details.html", {"profile": profile})
+
+#
+# class ProfileUpdateView(View):
+#     def get(self, request, pk):
+#         user = User.objects.get(pk=pk)
+#         profile = Profile.objects.get(pk=pk)
+#         form = ProfileForm(instance=user)
+#         return render(request, 'form.html', {'form': form})
+#
+#     def post(self, request, pk):
+#         user = User.objects.get(pk=pk)
+#         profile = Profile.objects.get(pk=pk)
+#         form = ProfileForm(request.POST, instance=user)
+#         if form.is_valid():
+#             form.save()
+#         return render(request, 'form.html', {'form': form})
+
+
+
+# class ProfileUpdateView(UpdateView):
+#     model = Profile
+#     # fields = ['user', 'tel_num', 'address', 'city', 'zip_code']
+#     fields = '__all__'
+#     template_name = 'form.html'
+#     success_url = reverse_lazy('')
+
+
+
 
 

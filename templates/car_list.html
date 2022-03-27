@@ -1,11 +1,22 @@
 {% extends "base.html" %}
- {% block title %}
-    <title>Car list</title>
-    {% endblock %}
+{% block title %}
+    <title>Car list | RentCar4U</title>
+{% endblock %}
 {% block content %}
-    <ul>
-    {% for car in object_list %}
-        <li><a href="{{car.get_details_url}}">{{car}} </a><a href="{{ car.get_update_url }}">[Edit] </a> <a href="{{ car.get_delete_url }}">[Delete]</a></li>
-    {% endfor %}
-    </ul>
+
+    <form method="get">
+        {{ filter.form.as_p }}
+        <input class="btn btn-primary" type="submit" value="Filter"/>
+    </form>
+
+    <div>
+        <p>
+        <ul>
+            {% for car in filter.qs %}
+                <li><a href="{{ car.get_details_url }}">{{ car }} </a><a href="{{ car.get_update_url }}">[Edit] </a>
+                    <a href="{{ car.get_delete_url }}">[Delete]</a></li></li>
+            {% endfor %}
+        </ul>
+        </p>
+    </div>
 {% endblock %}

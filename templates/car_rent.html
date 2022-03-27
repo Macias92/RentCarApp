@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Rent a car | RentCar4U</title>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label>Select Car:</label>
+        <select name="car">
+            {% for car in cars %}
+                <option value="{{ car.id }}"> {{ car.brand }} {{ car.model }}
+            {% endfor %}
+            </option>
+        </select><br>
+        <label>Start date</label>
+        <input type="date" id="start_date" name="start_date" max="3000-12-31"
+               min="1000-01-01"><br>
+        <label>End date</label>
+        <input type="date" id="end_date" name="end_date" max="3000-12-31"
+               min="1000-01-01"><br>
+        <label>Location</label>
+        <select name="location">
+            {% for location in locations %}
+                <option value="{{ location.id }}"> {{ location.name }}
+            {% endfor %}
+            </option>
+        </select><br>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Reserve</button>
+    </form><br>
+
+    {% if error %}
+        {{ error }}
+    {% endif %}
+
+{% endblock %}

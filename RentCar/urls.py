@@ -16,15 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rentcar_app.views import CarAddCreateView, CarListView, CarUpdateView, IndexView, CarDetailsView, CarDeleteView
+from rentcar_app.views import CarAddCreateView, CarUpdateView, IndexView, CarDetailsView, CarDeleteView, \
+    contact, RentCarView, car_list, RentListView, RentDetailsView, RentEditView, RentDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('', IndexView.as_view(), name='index'),
     path('car_add/', CarAddCreateView.as_view(), name='car_add'),
-    path('car_list/', CarListView.as_view(), name='car_list'),
+    path('car_list/', car_list, name='car_list'),
     path('car_details/<int:pk>/', CarDetailsView.as_view(), name='car_details'),
     path('car_update/<int:pk>/', CarUpdateView.as_view(), name='car_update'),
     path('car_delete/<int:pk>/', CarDeleteView.as_view(), name='car_delete'),
+    path('rent_add/', RentCarView.as_view(), name='car_rent'),
+    path('rent_list/', RentListView.as_view(), name='rent_list'),
+    path('rent_details/<int:pk>/', RentDetailsView.as_view(), name='rent_details'),
+    path('rent_edit/<int:pk>/', RentEditView.as_view(), name='rent_edit'),
+    path('rent_delete/<int:pk>/', RentDeleteView.as_view(), name='rent_delete'),
+    path('contact/', contact, name='contact')
 ]

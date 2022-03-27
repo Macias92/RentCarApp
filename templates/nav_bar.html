@@ -1,31 +1,26 @@
-{#<div class="topnav">#}
-{#    <a href="{% url "author_add" %}">Add Author</a>#}
-{#    <a href="{% url "author_list" %}">Author List</a>#}
-{#{% if perms.b_app.add_book %}#}
-{#    <a href="{% url "book_add" %}">Add Book</a>#}
-{#{% endif %}#}
-{#    <a href="{% url "book_list" %}">Book List</a>#}
-{#    <a href="{% url "publisher_model_add" %}">Add Publisher</a>#}
-{#    <a href="{% url "publisher_create" %}">Create Publisher</a>#}
-{#    {% if user.is_authenticated %}#}
-{#    <a href="{% url "logout" %}">Log out</a>#}
-{#    {% else %}#}
-{#    <a href="{% url "login" %}">Log in</a>#}
-{#    <a href="{% url "create-user" %}">Create User</a>#}
-{#    {% endif %}#}
-{#</div>#}
-
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="{% url "index" %}">Car Rental System</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="{% url "car_list" %}">List of all Cars<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="{% url "create_user" %}">Create Account</a>
+    <a class="navbar-brand" href="{% url "index" %}">Rent Car 4U</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+
+            {% if user.is_authenticated %}
+                {#    <a class="nav-item nav-link" href="{% url "profile_update" pk=request.profile.id %}">My account</a>#}
+                <a class="nav-item nav-link" href="{% url "car_list" %}">List of all Cars</a>
+                <a class="nav-item nav-link" href="{% url "car_rent" %}">Rent a Car</a>
+                <a class="nav-item nav-link" href="{% url "rent_list" %}">Reservations</a>
+                <a class="nav-item nav-link" href="{% url "contact" %}">Contact Us</a>
+                <a class="nav-item nav-link" href="{% url "logout" %}">Log out</a>
+            {% else %}
+                <a class="nav-item nav-link" href="{% url "create_user" %}">Create Account</a>
+                <a class="nav-item nav-link" href="{% url "login" %}">Log in</a>
+                <a class="nav-item nav-link" href="{% url "contact" %}">Contact Us</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </nav>
 <!-- Nav -->

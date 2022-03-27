@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Reservations list | RentCar4U</title>
+{% endblock %}
+{% block content %}
+
+    <ul>
+        {% for rent in object_list %}
+            <li><a href="{{ rent.get_details_url }}">Res NO {{ rent.id }} </a>
+                <a href="{{ rent.get_edit_url }}">[Edit] </a>
+                <a href="{{ rent.get_delete_url }}"> [Cancel reservation]</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
