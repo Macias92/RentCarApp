@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from rentcar_app.filters import CarFilter
-from rentcar_app.forms import RentCarForm
+from rentcar_app.forms import RentEditForm
 from rentcar_app.models import Car, Location, Rent
 
 
@@ -20,12 +20,9 @@ def car_list(request):
     return render(request, 'car_list.html', {'filter': car})
 
 
-class CarDetailsView(DetailView):
+class CarDetailsView(LoginRequiredMixin, DetailView):
     model = Car
     template_name = 'car_details.html'
-    # def get(self, request, id):
-    #     car = Car.objects.get(id=id)
-    #     return render(request, "car_details.html", {"car": car})
 
 
 class CarAddCreateView(PermissionRequiredMixin, CreateView):
@@ -59,20 +56,6 @@ class AddLocationView(PermissionRequiredMixin, CreateView):
     template_name = 'form.html'
 
 
-# class RentCarView(View):
-#     def get(self, request):
-#         user = request.user.id
-#         form = RentCarForm()
-#         return render(request, 'form.html', {'form': form})
-#
-#     def post(self, request):
-#         user_id = request.user.id
-#         form = RentCarForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/')
-#         return render(request, 'form.html', {'form': form})
-
 class RentCarView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
@@ -92,24 +75,24 @@ class RentCarView(LoginRequiredMixin, View):
         if Rent.objects.filter(car_id=car_id, start_date=start_date):
             return render(request, 'car_rent.html', context={'cars': cars,
                                                              'locations': locations,
-                                                             'error': 'In this period of time car is already rented. '
+                                                             'error': 'In this period of time that car is already rented. '
                                                                       'Choose other dates!'})
 
         if Rent.objects.filter(car_id=car_id, start_date=end_date):
             return render(request, 'car_rent.html', context={'cars': cars,
                                                              'locations': locations,
-                                                             'error': 'In this period of time car is already rented. '
+                                                             'error': 'In this period of time that car is already rented. '
                                                                       'Choose other dates!'})
 
         if Rent.objects.filter(car_id=car_id, end_date=start_date):
             return render(request, 'car_rent.html', context={'cars': cars,
                                                              'locations': locations,
-                                                             'error': 'In this period of time car is already rented. '
+                                                             'error': 'In this period of time that car is already rented. '
                                                                       'Choose other dates!'})
         if start_date < str(datetime.date.today()):
             return render(request, 'car_rent.html', context={'cars': cars,
                                                              'locations': locations,
-                                                             'error': 'Incorrect date - date can not be past!'})
+                                                             'error': 'Incorrect date - date cannot be past!'})
 
         Rent.objects.create(car_id=car_id,
                             user_id=user_id,
@@ -119,7 +102,7 @@ class RentCarView(LoginRequiredMixin, View):
         return redirect('car_list')
 
 
-class RentListView(ListView):
+class RentListView(LoginRequiredMixin, ListView):
     model = Rent
     template_name = 'rent_list.html'
     ordering = ['-pk']
@@ -139,18 +122,17 @@ class RentDetailsView(DetailView):
                                                              'summary': summary})
 
 
-class RentEditView(UpdateView):
+class RentEditView(LoginRequiredMixin, UpdateView):
     model = Rent
-    fields = '__all__'
+    form_class = RentEditForm
     template_name = 'form.html'
     success_url = reverse_lazy('rent_list')
 
 
-class RentDeleteView(DeleteView):
+class RentDeleteView(LoginRequiredMixin, DeleteView):
     model = Rent
     template_name = 'form.html'
     success_url = reverse_lazy('rent_list')
-
 
 
 def contact(request):

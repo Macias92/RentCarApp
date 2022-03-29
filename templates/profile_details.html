@@ -4,15 +4,16 @@
     {% endblock %}
 
 {% block content %}
-     <ul>My Account:
-        <td>First name: {{ user.first_name}}</td>
-        <td>Last name: {{ user.last_name }}</td>
-        <td>Email: {{ user.email}}</td>
-        <td>Tel. number: {{ profile.tel_num}} HP</td>
-        <td>Address: {{ car.address }}</td>
-        <td>City: {{ car.city }}</td>
-        <td>Zip code: {{ car.zip_code}}</td>
-    </ul>
+    <h3>My Account:</h3>
+    <tr>
+        <th>First name: </th><td>{{ user.first_name}}</td><br>
+        <th>Last name: </th><td>{{ user.last_name }}</td><br>
+        <th>Email: </th><td>{{ user.email}}</td><br>
+        <th>Tel. number: </th><td>{{ user.profile.tel_num}}</td><br>
+        <th>Address: </th><td>{{ user.profile.address }}</td><br>
+        <th>City: </th><td>{{ user.profile.city }}</td><br>
+        <th>Zip code: </th><td>{{ user.profile.zip_code}}</td><br>
+    </tr>
     <br>
-    <a href="{{profile.get_update_url}}">{{profile}}</a> Edit Profile
+    <a href="{{user.profile.get_update_url}}">Edit Profile</a>
 {% endblock %}

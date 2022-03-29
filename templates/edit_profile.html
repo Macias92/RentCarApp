@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Edit Profile | RentCar4U</title>
+{% endblock %}
+{% block content %}
+
+    <h3>Edit Profile:</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label>First name:</label>
+        <input type="text" name="new_first_name"><br>
+        <label>Last name:</label>
+        <input type="text" name="new_last_name"><br>
+        <label>Email:</label>
+        <input type="text" name="new_email" required/><br>
+        <label>Tel. number:</label>
+        <input type="number" maxlength="10" max="9999999999" name="new_tel_num" required/><br>
+        <label>Address:</label>
+        <input type="text" name="new_address" required/><br>
+        <label>City:</label>
+        <input type="text" name="new_city" required/><br>
+        <label>Zip code:</label>
+        <input type="text" maxlength="5" name="new_zip_code" required/><br>
+        <input type="submit" class="btn btn-primary" value="Edit">
+    </form>
+    <br>
+
+{% endblock %}

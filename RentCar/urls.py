@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rentcar_app.views import CarAddCreateView, CarUpdateView, IndexView, CarDetailsView, CarDeleteView, \
-    contact, RentCarView, car_list, RentListView, RentDetailsView, RentEditView, RentDeleteView
+from rentcar_app.views import IndexView, CarDetailsView, contact, RentCarView, car_list, RentListView, RentDetailsView, \
+    RentEditView, RentDeleteView, CarAddCreateView, CarUpdateView, CarDeleteView, AddLocationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('car_details/<int:pk>/', CarDetailsView.as_view(), name='car_details'),
     path('car_update/<int:pk>/', CarUpdateView.as_view(), name='car_update'),
     path('car_delete/<int:pk>/', CarDeleteView.as_view(), name='car_delete'),
+    path('location_add/', AddLocationView.as_view(), name='location_add'),
     path('rent_add/', RentCarView.as_view(), name='car_rent'),
     path('rent_list/', RentListView.as_view(), name='rent_list'),
     path('rent_details/<int:pk>/', RentDetailsView.as_view(), name='rent_details'),

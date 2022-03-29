@@ -1,19 +1,13 @@
 from django import forms
-from django.http import request
-
 from rentcar_app.models import Rent
 
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
-
-class RentCarForm(forms.ModelForm):
+class RentEditForm(forms.ModelForm):
     class Meta:
         model = Rent
-        fields = '__all__'
+        exclude = ['user', 'car']
         widgets = {
-            'start_date': DateInput(),
-            'end_date': DateInput(),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 

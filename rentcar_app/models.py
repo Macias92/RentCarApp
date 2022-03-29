@@ -10,6 +10,9 @@ class Profile(models.Model):
     city = models.CharField(max_length=64, null=True)
     zip_code = models.CharField(max_length=5, blank=True, null=True)
 
+    def __str__(self):
+        return str(self.user)
+
     def get_update_url(self):
         return reverse('profile_update', args=(self.pk, ))
 

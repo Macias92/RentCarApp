@@ -4,22 +4,11 @@
 {% endblock %}
 
 {% block content %}
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 5px;
-            text-align: left;
-        }
-    </style>
 
     <table style="width:50%">
         <h3>Reservation details:</h3>
         <tr>
-            <th>Reservation number [Res NO]:</th>
+            <th>Reservation number [Res No.]:</th>
             <td>{{ rent.id }}</td>
         </tr>
         <tr>
@@ -50,6 +39,9 @@
             <th>Summary price:</th>
             <td>{{ summary }}zł</td>
         </tr>
-
     </table>
+    <br>
+    <a href="{% url "rent_edit" rent.id %}">Edit reservation</a><br>
+    <a href="{% url "rent_delete" rent.id %}">Cancel reservation</a>
+
 {% endblock %}
