@@ -139,7 +139,7 @@ def test_car_update_view_as_user(user, cars, type, brand):
 
 
 @pytest.mark.django_db
-def test_car_delete_view_as_superuser(superuser, cars, type, brand):
+def test_car_delete_as_superuser(superuser, cars, type, brand):
     car = cars[0]
     client = Client()
     client.force_login(superuser)
@@ -149,7 +149,7 @@ def test_car_delete_view_as_superuser(superuser, cars, type, brand):
 
 
 @pytest.mark.django_db
-def test_car_delete_view_as_user(user, cars, type, brand):
+def test_car_delete_as_user(user, cars, type, brand):
     car = cars[0]
     client = Client()
     client.force_login(user)
@@ -180,6 +180,102 @@ def test_add_location_login_as_user(user):
             }
     response = client.post(url, data)
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_add_rent_login(user, location, cars):
+    car = cars[0]
+    client = Client()
+    client.force_login(user)
+    url = reverse('car_rent')
+    data = {
+        'car': car.id,
+        'start_date': '2022-05-01',
+        'end_date': '2022-05-02',
+        'location': location.id
+            }
+    response = client.post(url, data)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_add_rent_not_login(location, cars):
+    car = cars[0]
+    client = Client()
+    url = reverse('car_rent')
+    data = {
+        'car': car.id,
+        'start_date': '2022-05-01',
+        'end_date': '2022-05-02',
+        'location': location.id
+            }
+    response = client.post(url, data)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
+def test_rent_details_login(user, rents):
+    rent = rents[0]
+    client = Client()
+    url = reverse('rent_details', args=(rent.id,))
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_rent_details_not_login(rents):
+    rent = rents[0]
+    client = Client()
+    url = reverse('rent_details', args=(rent.id,))
+    response = client.get(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
+def test_rent_edit_login(user, rents):
+    rent = rents[0]
+    client = Client()
+    client.force_login(user)
+    url = reverse('rent_edit', args=(rent.id,))
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_rent_edit_not_login(rents):
+    rent = rents[0]
+    client = Client()
+    url = reverse('rent_edit', args=(rent.id,))
+    response = client.post(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
+def test_rent_delete_login(user, rents):
+    rent = rents[0]
+    client = Client()
+    client.force_login(user)
+    url = reverse('rent_delete', args=(rent.id,))
+    response = client.post(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_rent_delete_not_login(rents):
+    rent = rents[0]
+    client = Client()
+    url = reverse('rent_delete', args=(rent.id,))
+    response = client.post(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
 
 
 

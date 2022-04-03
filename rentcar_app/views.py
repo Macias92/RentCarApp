@@ -112,7 +112,7 @@ class RentListView(LoginRequiredMixin, ListView):
     ordering = ['-pk']
 
 
-class RentDetailsView(DetailView):
+class RentDetailsView(LoginRequiredMixin, DetailView):
     def get(self, request, pk):
         rent = Rent.objects.get(pk=pk)
         price = rent.car.price_per_day
