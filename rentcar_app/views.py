@@ -33,6 +33,10 @@ class CarAddCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'form.html'
 
 
+    # def get(self,request, *args,**kwargs):
+    #     super().get(self,request, *args,**kwargs)
+
+
 class CarUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = ['rentcar_app.change_car']
     model = Car

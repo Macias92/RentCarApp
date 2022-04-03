@@ -1,3 +1,195 @@
 from django.test import TestCase
+import pytest
+from django.test import Client
+from django.urls import reverse
 
-# Create your tests here.
+
+@pytest.mark.django_db
+def test_index():
+    client = Client()
+    url = reverse('index')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_contact():
+    client = Client()
+    url = reverse('contact')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_car_list():
+    client = Client()
+    url = reverse('car_list')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_car_details_not_login(cars):
+    car = cars[0]
+    client = Client()
+    url = reverse('car_details', args=(car.id,))
+    response = client.get(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
+def test_car_details_login(user, cars):
+    car = cars[0]
+    client = Client()
+    url = reverse('car_details', args=(car.id,))
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_add_car_as_superuser(superuser, brand, type):
+    client = Client()
+    client.force_login(superuser)
+    url = reverse('car_add')
+    data = {
+        'brand': brand.id,
+        'model': 'test',
+        'type': type.id,
+        'power': 150,
+        'engine': 2.0,
+        'year': 2004,
+        'seats': 5,
+        'gears': 1,
+        'fuel': 1,
+        'price_per_day': 50,
+        'quantity': 1,
+    }
+    response = client.post(url, data)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_add_car_as_user(user, brand, type):
+    client = Client()
+    client.force_login(user)
+    url = reverse('car_add')
+    data = {
+        'brand': brand.id,
+        'model': 'test',
+        'type': type.id,
+        'power': 150,
+        'engine': 2.0,
+        'year': 2004,
+        'seats': 5,
+        'gears': 1,
+        'fuel': 1,
+        'price_per_day': 50,
+        'quantity': 1,
+    }
+    response = client.post(url, data)
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_car_update_view_as_superuser(superuser, cars, type, brand):
+    car = cars[0]
+    client = Client()
+    client.force_login(superuser)
+    url = reverse('car_update', args=(car.id,))
+    data = {
+        'brand': brand.id,
+        'model': 'test',
+        'type': type.id,
+        'power': 150,
+        'engine': 2.0,
+        'year': 2005,
+        'seats': 3,
+        'gears': 1,
+        'fuel': 1,
+        'price_per_day': 60,
+        'quantity': 1,
+    }
+    response = client.post(url, data)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_car_update_view_as_user(user, cars, type, brand):
+    car = cars[0]
+    client = Client()
+    client.force_login(user)
+    url = reverse('car_update', args=(car.id,))
+    data = {
+        'brand': brand.id,
+        'model': 'test',
+        'type': type.id,
+        'power': 150,
+        'engine': 2.0,
+        'year': 2005,
+        'seats': 3,
+        'gears': 1,
+        'fuel': 1,
+        'price_per_day': 60,
+        'quantity': 1,
+    }
+    response = client.post(url, data)
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_car_delete_view_as_superuser(superuser, cars, type, brand):
+    car = cars[0]
+    client = Client()
+    client.force_login(superuser)
+    url = reverse('car_delete', args=(car.id,))
+    response = client.post(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_car_delete_view_as_user(user, cars, type, brand):
+    car = cars[0]
+    client = Client()
+    client.force_login(user)
+    url = reverse('car_delete', args=(car.id,))
+    response = client.post(url)
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_add_location_login_as_superuser(superuser):
+    client = Client()
+    client.force_login(superuser)
+    url = reverse('location_add')
+    data = {
+        'name': 'Poznań',
+            }
+    response = client.post(url, data)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_add_location_login_as_user(user):
+    client = Client()
+    client.force_login(user)
+    url = reverse('location_add')
+    data = {
+        'name': 'Poznań',
+            }
+    response = client.post(url, data)
+    assert response.status_code == 403
+
+
+
+
+
+
+
+
+
+
+
+
+
