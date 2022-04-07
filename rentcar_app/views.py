@@ -144,6 +144,3 @@ class RentDeleteView(LoginRequiredMixin, DeleteView):
 def contact(request):
     return render(request, 'contact.html')
 
-
-def test(request):
-    return render(request, 'base.html')

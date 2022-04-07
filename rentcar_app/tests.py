@@ -161,6 +161,30 @@ def test_car_update_view_as_user(user, cars, type, brand):
 
 
 @pytest.mark.django_db
+def test_car_update_view_not_login(cars, type, brand):
+    car = cars[0]
+    client = Client()
+    url = reverse('car_update', args=(car.id,))
+    data = {
+        'brand': brand.id,
+        'model': 'test',
+        'type': type.id,
+        'power': 150,
+        'engine': 2.0,
+        'year': 2005,
+        'seats': 3,
+        'gears': 1,
+        'fuel': 1,
+        'price_per_day': 60,
+        'quantity': 1,
+    }
+    response = client.post(url, data)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
 def test_car_delete_as_superuser(superuser, cars, type, brand):
     car = cars[0]
     client = Client()
@@ -178,6 +202,17 @@ def test_car_delete_as_user(user, cars, type, brand):
     url = reverse('car_delete', args=(car.id,))
     response = client.post(url)
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_car_delete_not_login(cars, type, brand):
+    car = cars[0]
+    client = Client()
+    url = reverse('car_delete', args=(car.id,))
+    response = client.post(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
 
 
 @pytest.mark.django_db
@@ -202,6 +237,19 @@ def test_add_location_login_as_user(user):
     }
     response = client.post(url, data)
     assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_add_location_not_login():
+    client = Client()
+    url = reverse('location_add')
+    data = {
+        'name': 'Poznań',
+    }
+    response = client.post(url, data)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
 
 
 @pytest.mark.django_db
