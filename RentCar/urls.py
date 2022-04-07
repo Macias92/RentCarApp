@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rentcar_app.views import IndexView, CarDetailsView, contact, RentCarView, car_list, RentListView, RentDetailsView, \
-    RentEditView, RentDeleteView, CarAddCreateView, CarUpdateView, CarDeleteView, AddLocationView
+    RentEditView, RentDeleteView, CarAddCreateView, CarUpdateView, CarDeleteView, AddLocationView, test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,5 +34,6 @@ urlpatterns = [
     path('rent_details/<int:pk>/', RentDetailsView.as_view(), name='rent_details'),
     path('rent_edit/<int:pk>/', RentEditView.as_view(), name='rent_edit'),
     path('rent_delete/<int:pk>/', RentDeleteView.as_view(), name='rent_delete'),
-    path('contact/', contact, name='contact')
+    path('contact/', contact, name='contact'),
+    path('test/', test),
 ]

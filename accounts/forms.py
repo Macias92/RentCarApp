@@ -21,5 +21,5 @@ class UpdateGroupPermissionForm(forms.ModelForm):
         model = Group
         fields = ['name', 'permissions']
         widgets = {
-            'permissions': forms.CheckboxSelectMultiple
+            'permissions': forms.CheckboxSelectMultiple()
         }

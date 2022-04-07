@@ -3,7 +3,7 @@
     <title>Edit Profile | RentCar4U</title>
 {% endblock %}
 {% block content %}
-
+<main class="px-3">
     <h3>Edit Profile:</h3>
     <form action="" method="POST">
         {% csrf_token %}
@@ -21,8 +21,8 @@
         <input type="text" name="new_city" required/><br>
         <label>Zip code:</label>
         <input type="text" maxlength="5" name="new_zip_code" required/><br>
-        <input type="submit" class="btn btn-primary" value="Edit">
+        <input type="submit" class="btn btn-secondary" value="Edit">
     </form>
     <br>
-
+</main>
 {% endblock %}

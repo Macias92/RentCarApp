@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import UpdateView
 from accounts.forms import LoginForm, CreateUserForm, UpdateGroupPermissionForm
 from rentcar_app.models import Profile
 
@@ -52,7 +51,9 @@ class CreateUserView(View):
         return render(request, 'form.html', {'form': form})
 
 
-class UpdateGroupPermissionView(View):
+class UpdateGroupPermissionView(PermissionRequiredMixin, View):
+    permission_required = ['accounts.change_permission']
+
     def get(self, request, group_id):
         group = Group.objects.get(pk=group_id)
         form = UpdateGroupPermissionForm(instance=group)
@@ -66,13 +67,13 @@ class UpdateGroupPermissionView(View):
         return render(request, 'form.html', {'form': form})
 
 
-class ProfileDetailsView(View):
+class ProfileDetailsView(LoginRequiredMixin, View):
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
         return render(request, 'profile_details.html', {'user': user})
 
 
-class ProfileUpdateView(View):
+class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(pk=pk)

@@ -6,12 +6,12 @@
 
     <form method="get">
         {{ filter.form.as_p }}
-        <input class="btn btn-primary" type="submit" value="Filter"/>
+        <input class="btn btn-secondary" type="submit" value="Filter"/>
     </form>
 
     <div>
         <p>
-        <ul>
+        <ul class="list-unstyled">
             {% for car in filter.qs %}
                 <li><a href="{{ car.get_details_url }}">{{ car }} </a>
                     <a href="{{ car.get_update_url }}">[Edit] </a>

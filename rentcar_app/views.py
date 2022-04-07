@@ -1,5 +1,4 @@
 import datetime
-
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -31,10 +30,6 @@ class CarAddCreateView(PermissionRequiredMixin, CreateView):
     fields = '__all__'
     success_url = reverse_lazy('car_list')
     template_name = 'form.html'
-
-
-    # def get(self,request, *args,**kwargs):
-    #     super().get(self,request, *args,**kwargs)
 
 
 class CarUpdateView(PermissionRequiredMixin, UpdateView):
@@ -109,7 +104,7 @@ class RentCarView(LoginRequiredMixin, View):
 class RentListView(LoginRequiredMixin, ListView):
     model = Rent
     template_name = 'rent_list.html'
-    ordering = ['-pk']
+    # ordering = ['-pk']
 
 
 class RentDetailsView(LoginRequiredMixin, DetailView):
@@ -142,3 +137,6 @@ class RentDeleteView(LoginRequiredMixin, DeleteView):
 def contact(request):
     return render(request, 'contact.html')
 
+
+def test(request):
+    return render(request, 'base.html')

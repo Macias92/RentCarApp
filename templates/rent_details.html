@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <table style="width:50%">
+    <table class="table table-striped" style="width:50%">
         <h3>Reservation details:</h3>
         <tr>
             <th>Reservation number [Res No.]:</th>
@@ -43,5 +43,5 @@
     <br>
     <a href="{% url "rent_edit" rent.id %}">Edit reservation</a><br>
     <a href="{% url "rent_delete" rent.id %}">Cancel reservation</a>
-
-{% endblock %}
+    </main>
+{% endblock %}}

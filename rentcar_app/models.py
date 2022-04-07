@@ -14,7 +14,7 @@ class Profile(models.Model):
         return str(self.user)
 
     def get_update_url(self):
-        return reverse('profile_update', args=(self.pk, ))
+        return reverse('profile_update', args=(self.pk,))
 
 
 class Brand(models.Model):
@@ -89,13 +89,13 @@ class Car(models.Model):
         return f"{self.brand} {self.model}"
 
     def get_update_url(self):
-        return reverse('car_update', args=(self.pk, ))
+        return reverse('car_update', args=(self.pk,))
 
     def get_details_url(self):
-        return reverse('car_details', args=(self.pk, ))
+        return reverse('car_details', args=(self.pk,))
 
     def get_delete_url(self):
-        return reverse('car_delete', args=(self.pk, ))
+        return reverse('car_delete', args=(self.pk,))
 
 
 class Location(models.Model):
@@ -116,10 +116,10 @@ class Rent(models.Model):
         unique_together = ('car', 'start_date', 'end_date')
 
     def get_edit_url(self):
-        return reverse('rent_edit', args=(self.pk, ))
+        return reverse('rent_edit', args=(self.pk,))
 
     def get_details_url(self):
-        return reverse('rent_details', args=(self.pk, ))
+        return reverse('rent_details', args=(self.pk,))
 
     def get_delete_url(self):
-        return reverse('rent_delete', args=(self.pk, ))
+        return reverse('rent_delete', args=(self.pk,))

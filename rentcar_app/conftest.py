@@ -1,12 +1,20 @@
 import pytest
 from django.contrib.auth.models import User
 
-from rentcar_app.models import Car, Brand, Type, Location, Rent
+from rentcar_app.models import Car, Brand, Type, Location, Rent, Profile
 
 
 @pytest.fixture
 def user():
-    return User.objects.create_user(username="1test", password="1test")
+    user = User.objects.create_user(username="1test", password="1test")
+    return user
+
+
+@pytest.fixture
+def profile():
+    profile = Profile(user=user)
+    profile.save()
+    return profile
 
 
 @pytest.fixture
