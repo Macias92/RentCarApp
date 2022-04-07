@@ -219,6 +219,37 @@ def test_add_rent_login(user, location, cars):
     response = client.post(url, data)
     assert response.status_code == 302
 
+@pytest.mark.django_db
+def test_user_rent_list_not_login():
+    client = Client()
+    url = reverse('user_rent_list')
+    response = client.get(url)
+    assert response.status_code == 302
+    url = reverse('login')
+    assert response.url.startswith(url)
+
+
+@pytest.mark.django_db
+def test_user_rent_list_login(user):
+    client = Client()
+    client.force_login(user)
+    url = reverse('user_rent_list')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['rents'].count() == 0
+
+
+@pytest.mark.django_db
+def test_user_rent_list_with_rents_login(user, rents):
+    client = Client()
+    client.force_login(user)
+    url = reverse('user_rent_list')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['rents'].count() == len(rents)
+    for rent in rents:
+        assert rent in response.context['rents']
+
 
 @pytest.mark.django_db
 def test_rent_list_not_login():

@@ -11,11 +11,13 @@
         <li>Model: {{ car.model }}</li>
         <li>Type: {{ car.type }}</li>
         <li>Power: {{ car.power }} HP</li>
-        <li>Engine: {{ car.engine }}</li>
+        <li>Engine*: {{ car.engine }}</li>
         <li>Year: {{ car.year }}</li>
         <li>Number of seats: {{ car.seats }}</li>
         <li>Gears type: {{ car.get_gears_display }}</li>
         <li>Fuel type: {{ car.get_fuel_display }}</li>
         <li>Price per day: {{ car.price_per_day }} zł</li>
     </ul>
+    <br>
+    <p>*blank in case of electric or hybrid version</p>
 {% endblock %}

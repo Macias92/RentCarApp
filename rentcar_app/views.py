@@ -121,6 +121,13 @@ class RentDetailsView(LoginRequiredMixin, DetailView):
                                                              'summary': summary})
 
 
+class UserRentListView(LoginRequiredMixin, DetailView):
+    def get(self, request):
+        user = request.user
+        rents = Rent.objects.filter(user_id=user.id)
+        return render(request, 'user_rent_list.html', context={'rents': rents})
+
+
 class RentEditView(LoginRequiredMixin, UpdateView):
     model = Rent
     form_class = RentEditForm

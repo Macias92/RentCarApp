@@ -5,7 +5,7 @@ from rentcar_app.models import Car
 class CarFilter(django_filters.FilterSet):
     class Meta:
         model = Car
-        fields = ('brand', 'type')
+        fields = ('brand', 'type', 'fuel', 'gears')
 
 
 

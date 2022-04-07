@@ -4,8 +4,10 @@
 {% endblock %}
 {% block content %}
     <ul class="list-unstyled">
-        {% for rent in object_list %}
+        {% for rent in rents %}
             <li><a href="{{ rent.get_details_url }}">Res No. {{ rent.id }} </a></li>
+                            <a href="{{ rent.get_edit_url }}">[Edit] </a>
+                            <a href="{{ rent.get_delete_url }}"> [Cancel reservation]</a></p>
         {% endfor %}
     </ul>
 

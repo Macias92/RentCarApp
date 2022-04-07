@@ -68,7 +68,7 @@ class Car(models.Model):
     model = models.CharField(max_length=64)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     power = models.IntegerField()
-    engine = models.DecimalField(max_digits=2, decimal_places=1)
+    engine = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
     year = models.DecimalField(max_digits=4, decimal_places=0)
     seats = models.IntegerField()
     GEARS = (
