@@ -43,15 +43,15 @@ class CreateUserView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            profile = Profile(user=user)
+            profile = Profile(user=user)  # create profile model from instance user
             profile.save()
-            group = Group.objects.get(name='client')
+            group = Group.objects.get(name='client')  # all new users are automatically addded to this group to limit permissions
             user.groups.add(group)
             return redirect('/')
         return render(request, 'form.html', {'form': form})
 
 
-class UpdateGroupPermissionView(PermissionRequiredMixin, View):
+class UpdateGroupPermissionView(PermissionRequiredMixin, View):  # View connected with updating group permissions
     permission_required = ['accounts.change_permission']
 
     def get(self, request, group_id):
@@ -73,7 +73,7 @@ class ProfileDetailsView(LoginRequiredMixin, View):
         return render(request, 'profile_details.html', {'user': user})
 
 
-class ProfileUpdateView(LoginRequiredMixin, View):
+class ProfileUpdateView(LoginRequiredMixin, View):  # Vew allows to update profile user informations
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(pk=pk)
