@@ -84,13 +84,13 @@ class RentCarView(LoginRequiredMixin, View):  # View connected with renting a ca
         enddate = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
 
         for i in rent:
-            if not date_in_range(i.start_date, i.end_date, startdate):
+            if date_in_range(i.start_date, i.end_date, startdate):
                 return render(request, 'car_rent.html', context={'cars': cars,
                                                                  'locations': locations,
                                                                  'error': 'In this period of time that car is already rented. '
                                                                       'Choose other dates!'})
 
-            if not date_in_range(i.start_date, i.end_date, enddate):
+            if date_in_range(i.start_date, i.end_date, enddate):
                 return render(request, 'car_rent.html', context={'cars': cars,
                                                                 'locations': locations,
                                                                 'error': 'In this period of time that car is already rented. '
